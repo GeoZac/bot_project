@@ -63,6 +63,32 @@ def main():
         last_chat_id = last_update['message']['chat']['id']
         last_chat = last_update['message']['chat']
 
+        '''
+                Handles service messages
+        '''
+        if "new_chat_participant" in last_message:
+            reply = welcome(last_message)
+            unconv_bot.send_message(last_chat_id, reply)
+
+        if "left_chat_participant" in last_message:
+            reply = farewell(last_message)
+            unconv_bot.send_message(last_chat_id, reply)
+
+        '''
+                Handles all other commands
+                '''
+        # TODO Add check for bot_command
+        if "text" in last_message:  # Reads all message
+            last_chat_text = last_update['message']['text']
+            
+            if last_chat_text == '/time@unConv_bot':
+                now = datetime.datetime.now()
+                unconv_bot.send_message(last_chat_id, 'Time is {0}'.format(now))
+
+            if '/adminlist' in last_chat_text:
+                admin_list = list_admin(last_chat)
+                unconv_bot.send_reply(last_chat_id, admin_list, last_message_id)
+
         new_offset = last_update_id + 1
 
 if __name__ == '__main__':
