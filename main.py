@@ -51,3 +51,22 @@ class Bot:
         requests.post(self.api_url + method, params)
 
 sasi_bot = Bot("my_super_secret_bot_key")
+
+def main():
+    new_offset = None
+    while True:
+        unconv_bot.get_updates(new_offset)
+        last_update = unconv_bot.get_last_update()
+        last_update_id = last_update['update_id']
+        last_message = last_update['message']
+        last_message_id = last_update['message']['message_id']
+        last_chat_id = last_update['message']['chat']['id']
+        last_chat = last_update['message']['chat']
+
+        new_offset = last_update_id + 1
+
+if __name__ == '__main__':
+    try:
+        main()
+    except KeyboardInterrupt:
+        exit()
