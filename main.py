@@ -1,5 +1,7 @@
 import requests
 
+from helper import *
+
 class Bot:
     """All telegram methods are to be included in class definition"""
 
